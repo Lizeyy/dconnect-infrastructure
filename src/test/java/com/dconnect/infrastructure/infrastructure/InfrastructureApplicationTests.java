@@ -1,4 +1,4 @@
-package com.dconnect.infrastructure;
+package com.dconnect.infrastructure.infrastructure;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

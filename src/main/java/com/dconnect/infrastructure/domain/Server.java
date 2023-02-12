@@ -1,28 +1,26 @@
-package com.dconnect.infrastructureservice.domain;
+package com.dconnect.infrastructure.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Channel {
+public class Server {
 
     @Id
-    @GeneratedValue(generator = "channel_seq")
-    @GenericGenerator(name = "channel_seq", strategy = "increment")
+    @GeneratedValue(generator = "servers_seq")
+    @GenericGenerator(name = "servers_seq", strategy = "increment")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name="server_id", nullable=false)
-    private Server serverId;
-    private String discordChannelId;
+    private String discordServerId;
     private String name;
     private String creationBy;
     private OffsetDateTime creationDate;

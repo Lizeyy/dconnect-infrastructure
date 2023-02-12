@@ -1,6 +1,6 @@
-package com.dconnect.infrastructureservice.repository;
+package com.dconnect.infrastructure.repository;
 
-import com.dconnect.infrastructureservice.domain.ConnectionsChannels;
+import com.dconnect.infrastructure.domain.ConnectionsChannels;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ConnectionsChannelsRepository extends JpaRepository<ConnectionsChannels, Long> {

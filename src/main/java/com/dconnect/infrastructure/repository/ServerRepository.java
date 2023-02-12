@@ -1,6 +1,6 @@
-package com.dconnect.infrastructureservice.repository;
+package com.dconnect.infrastructure.repository;
 
-import com.dconnect.infrastructureservice.domain.Server;
+import com.dconnect.infrastructure.domain.Server;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
