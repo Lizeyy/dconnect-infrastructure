@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="db-changelog-2-add_connect_token_table" author="Izabela Wojtowicz">
+
+        <createSequence sequenceName="connect_token_seq" startValue="1000"/>
+        <createTable tableName="connections_tokens">
+            <column name="id" type="bigint">
+                <constraints  primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="connection_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean"/>
+            <column name="creation_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modification_date" type="date"/>
+            <column name="uuid" type="varchar(36)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
