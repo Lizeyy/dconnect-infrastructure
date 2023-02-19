@@ -1,14 +1,13 @@
 package com.dconnect.infrastructure.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,11 +18,11 @@ public class ConnectionsChannels {
     @GenericGenerator(name = "channel_seq", strategy = "increment")
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="channel_id", nullable=false)
     private Channel channelId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="connection_id", nullable=false)
     private Connection connectionId;
     private String creationBy;

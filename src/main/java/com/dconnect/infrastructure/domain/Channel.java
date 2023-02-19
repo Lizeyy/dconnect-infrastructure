@@ -1,14 +1,14 @@
 package com.dconnect.infrastructure.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,9 +20,10 @@ public class Channel {
 
     @ManyToOne
     @JoinColumn(name="server_id", nullable=false)
-    private Server serverId;
+    private Server server;
     private String discordChannelId;
     private String name;
+    private boolean active;
     private String creationBy;
     private OffsetDateTime creationDate;
     private String modificationBy;

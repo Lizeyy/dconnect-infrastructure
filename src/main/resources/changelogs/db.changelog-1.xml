@@ -4,12 +4,15 @@
 
     <changeSet id="db-changelog-1" author="Izabela Wojtowicz">
 
-        <createSequence sequenceName="connections_seq" startValue="1000"/>
-        <createTable tableName="connections">
+        <createSequence sequenceName="connection_seq" startValue="1000"/>
+        <createTable tableName="connection">
             <column name="id" type="bigint">
                 <constraints  primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="root_channel_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="creation_by" type="varchar">
@@ -21,14 +24,13 @@
             <column name="modification_by" type="varchar"/>
             <column name="modification_date" type="date"/>
             <column name="active" type="boolean"/>
-            <column name="private" type="boolean"/>
             <column name="uuid" type="varchar(36)">
                 <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
 
-        <createSequence sequenceName="servers_seq" startValue="1000"/>
-        <createTable tableName="servers">
+        <createSequence sequenceName="server_seq" startValue="1000"/>
+        <createTable tableName="server">
             <column name="id" type="bigint">
                 <constraints  primaryKey="true" nullable="false" unique="true"/>
             </column>
@@ -48,17 +50,15 @@
             </column>
         </createTable>
 
-        <createSequence sequenceName="channels_seq" startValue="1000"/>
-        <createTable tableName="channels">
+        <createSequence sequenceName="channel_seq" startValue="1000"/>
+        <createTable tableName="channel">
             <column name="id" type="bigint">
                 <constraints  primaryKey="true" nullable="false" unique="true"/>
-            </column>
-            <column name="server_id" type="bigint">
-                <constraints nullable="false"/>
             </column>
             <column name="discord_channel_id" type="varchar">
                 <constraints nullable="false"/>
             </column>
+            <column name="active" type="boolean"/>
             <column name="creation_by" type="varchar">
                 <constraints nullable="false"/>
             </column>
@@ -72,7 +72,7 @@
             </column>
         </createTable>
 
-        <createSequence sequenceName="connections_servers_seq" startValue="1000"/>
+        <createSequence sequenceName="connections_channels_seq" startValue="1000"/>
         <createTable tableName="connections_channels">
             <column name="id" type="bigint">
                 <constraints  primaryKey="true" nullable="false" unique="true"/>
@@ -92,6 +92,27 @@
             <column name="modification_by" type="varchar"/>
             <column name="modification_date" type="date"/>
             <column name="active" type="boolean"/>
+            <column name="uuid" type="varchar(36)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="token_seq" startValue="1000"/>
+        <createTable tableName="token">
+            <column name="id" type="bigint">
+                <constraints  primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="connection_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean"/>
+            <column name="creation_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modification_date" type="date"/>
             <column name="uuid" type="varchar(36)">
                 <constraints nullable="false" unique="true"/>
             </column>

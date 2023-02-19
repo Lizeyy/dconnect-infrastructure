@@ -11,6 +11,9 @@ spring:
     liquibase:
         enabled: true
         change-log: classpath:changelogs/master-changelogs.xml
+    jpa:
+      hibernate:
+          ddl-auto: create
 
 server:
     port: 8091
