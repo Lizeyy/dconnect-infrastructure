@@ -22,6 +22,7 @@ public interface ConnectionMapper {
     @Mapping(target = "modificationDate", ignore = true)
     @Mapping(target = "active", constant = "true")
     @Mapping(target = "rootChannel", ignore = true)
+    @Mapping(target = "channels", ignore = true)
     Connection map(ConnectionCreateRequest request);
 
     default ConnectionCreateResponse map(Connection connection, String token) {

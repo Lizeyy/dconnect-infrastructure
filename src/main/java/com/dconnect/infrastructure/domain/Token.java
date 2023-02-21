@@ -17,8 +17,8 @@ import java.time.OffsetDateTime;
 public class Token {
 
     @Id
-    @GeneratedValue(generator = "servers_seq")
-    @GenericGenerator(name = "servers_seq", strategy = "increment")
+    @GeneratedValue(generator = "token_seq")
+    @GenericGenerator(name = "token_seq", strategy = "increment")
     private Long id;
 
     @OneToOne

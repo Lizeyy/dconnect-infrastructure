@@ -19,8 +19,8 @@ import java.util.Set;
 public class Server {
 
     @Id
-    @GeneratedValue(generator = "servers_seq")
-    @GenericGenerator(name = "servers_seq", strategy = "increment")
+    @GeneratedValue(generator = "server_seq")
+    @GenericGenerator(name = "server_seq", strategy = "increment")
     private Long id;
     private String discordServerId;
     private String name;
@@ -28,6 +28,6 @@ public class Server {
     private OffsetDateTime creationDate;
     private String modificationBy;
     private OffsetDateTime modificationDate;
-    @OneToMany
+    @OneToMany(mappedBy = "server")
     private Set<Channel> channels = new HashSet<>();
 }

@@ -1,9 +1,9 @@
 package com.dconnect.infrastructure.service;
 
-import com.dconnect.client.DiscordRestClient;
 import com.dconnect.client.protocol.domain.response.ChannelInfo;
 import com.dconnect.infrastructure.client.DiscordClient;
 import com.dconnect.infrastructure.domain.Channel;
+import com.dconnect.infrastructure.domain.Connection;
 import com.dconnect.infrastructure.domain.Server;
 import com.dconnect.infrastructure.repository.ChannelsRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +25,20 @@ public class ChannelService {
         channel.setServer(server);
         channel.setDiscordChannelId(channelId);
         channel.setName(channelInfo.getName());
-        channel.setActive(true);
         channel.setCreationBy(creationBy);
         channel.setCreationDate(OffsetDateTime.now());
 
-        return channelsRepository.save(channel);
+        return channel;
     }
 
+    public void addChannelToConnection(Channel channel, Connection connection) {
+        channel.setConnection(connection);
+        channelsRepository.save(channel);
+        connection.getChannels().add(channel);
+    }
 
     public boolean checkIfChannelExist(String serverId, String channelId) {
-        return channelsRepository.findByServerDiscordServerIdAndDiscordChannelIdAndActiveIsTrue(serverId, channelId).isPresent();
+        return channelsRepository.findByServerDiscordServerIdAndDiscordChannelIdAndDetailsActiveIsTrue(serverId, channelId).isPresent();
     }
 
 

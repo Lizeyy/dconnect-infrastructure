@@ -19,13 +19,20 @@ public class Channel {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="server_id", nullable=false)
+    @JoinColumn(name = "server_id", nullable=false)
     private Server server;
+
     private String discordChannelId;
     private String name;
-    private boolean active;
     private String creationBy;
     private OffsetDateTime creationDate;
     private String modificationBy;
     private OffsetDateTime modificationDate;
+
+    @OneToOne(mappedBy = "channel")
+    private ConnectionDetails details;
+
+    @ManyToOne
+    @JoinColumn(name = "connection_id")
+    private Connection connection;
 }

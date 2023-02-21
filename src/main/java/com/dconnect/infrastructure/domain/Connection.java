@@ -7,17 +7,19 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "connection")
 public class Connection {
 
     @Id
-    @GeneratedValue(generator = "channel_seq")
-    @GenericGenerator(name = "channel_seq", strategy = "increment")
+    @GeneratedValue(generator = "connection_seq")
+    @GenericGenerator(name = "connection_seq", strategy = "increment")
     private Long id;
 
     private String name;
@@ -28,4 +30,7 @@ public class Connection {
     private String modificationBy;
     private OffsetDateTime modificationDate;
     private boolean active;
+
+    @OneToMany
+    private Set<Channel> channels = new HashSet<>();
 }
