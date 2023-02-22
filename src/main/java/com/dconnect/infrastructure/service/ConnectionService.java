@@ -6,6 +6,7 @@ import com.dconnect.client.protocol.domain.response.ConnectionCreateResponse;
 import com.dconnect.client.protocol.domain.response.ConnectionJoinResponse;
 import com.dconnect.infrastructure.domain.*;
 import com.dconnect.infrastructure.error.ChannelAlreadyUsed;
+import com.dconnect.infrastructure.error.TokenNotActive;
 import com.dconnect.infrastructure.mapper.ConnectionMapper;
 import com.dconnect.infrastructure.repository.ConnectionRepository;
 import com.dconnect.infrastructure.repository.ConnectionsChannelsRepository;
@@ -25,7 +26,7 @@ public class ConnectionService {
     private final ChannelService channelService;
     private final ServerService serverService;
     private final TokenService tokenService;
-    private final InvitationRepository repository;
+    private final InvitationService invitationService;
 
     @Transactional //żeby nie zapisało w razie errora
     public ConnectionCreateResponse createConnection(ConnectionCreateRequest request) {
@@ -48,10 +49,6 @@ public class ConnectionService {
         final String token = tokenService.createToken(connection);
 
         return ConnectionMapper.INSTANCE.map(connection, token);
-    }
-
-    public ConnectionJoinResponse joinConnection(ConnectionJoinRequest request) {
-        return  new ConnectionJoinResponse();
     }
 
     private void createConnectionsChannels(Channel channel, Connection connection, String creationBy) {

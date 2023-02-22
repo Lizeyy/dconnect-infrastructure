@@ -5,6 +5,7 @@ import com.dconnect.client.protocol.domain.request.ConnectionJoinRequest;
 import com.dconnect.client.protocol.domain.response.ConnectionCreateResponse;
 import com.dconnect.client.protocol.domain.response.ConnectionJoinResponse;
 import com.dconnect.infrastructure.service.ConnectionService;
+import com.dconnect.infrastructure.service.InvitationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 public class ConnectionController {
 
     private final ConnectionService connectionService;
+    private final InvitationService invitationService;
 
     @PostMapping({"/api/connection"})
     public ConnectionCreateResponse createConnection(@Valid @RequestBody ConnectionCreateRequest request) {
@@ -26,6 +28,6 @@ public class ConnectionController {
 
     @PutMapping({"/api/connection/join"})
     public ConnectionJoinResponse joinConnection(@Valid @RequestBody ConnectionJoinRequest request) {
-        return connectionService.joinConnection(request);
+        return invitationService.createInvitation(request);
     }
 }
