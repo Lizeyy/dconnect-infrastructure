@@ -2,10 +2,12 @@ package com.dconnect.infrastructure.domain;
 
 import jakarta.persistence.Id;
 import lombok.Builder;
+import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+@Data
 @Builder
 @Document(collection = "invitation")
 public class Invitation {

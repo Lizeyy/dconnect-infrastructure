@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface InvitationRepository extends MongoRepository<Invitation, String> {
 
     Optional<Invitation> findByServerIdAndChannelId(String serverId, String channelId);
+
+    Optional<Invitation> findById(String id);
 }

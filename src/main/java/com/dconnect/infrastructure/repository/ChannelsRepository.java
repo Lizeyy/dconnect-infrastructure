@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ChannelsRepository extends JpaRepository<Channel, Long> {
     Optional<Channel> findByServerDiscordServerIdAndDiscordChannelIdAndDetailsActiveIsTrue(String serverId, String discordChannelId);
 
+    Optional<Channel> findByDiscordChannelId(String discordChannelId);
+
 }

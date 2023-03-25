@@ -4,13 +4,13 @@ import com.dconnect.client.protocol.domain.response.ServerInfo;
 import com.dconnect.infrastructure.client.DiscordClient;
 import com.dconnect.infrastructure.domain.Channel;
 import com.dconnect.infrastructure.domain.Server;
-import com.dconnect.infrastructure.repository.ChannelsRepository;
 import com.dconnect.infrastructure.repository.ServerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +24,20 @@ public class ServerService {
         return server.orElseGet(() -> createServer(serverId, creationBy));
     }
 
+    public Optional<Server> getServer(String serverId) {
+        return serverRepository.findByDiscordServerId(serverId);
+    }
+
+    public Server getServerByChannel(String channelId) {
+        return serverRepository.findByChannelsDiscordChannelId(channelId);
+    }
+
     public void addChannelToServer(Server server, Channel channel) {
-        server.getChannels().add(channel);
-        serverRepository.save(server);
+        final Set<Channel> channels = server.getChannels();
+        if (!channels.contains(channel)) {
+            channels.add(channel);
+            serverRepository.save(server);
+        }
     }
 
     private Server createServer(String serverId, String creationBy) {
