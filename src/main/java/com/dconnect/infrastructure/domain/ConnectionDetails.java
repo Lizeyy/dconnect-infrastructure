@@ -3,6 +3,7 @@ package com.dconnect.infrastructure.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 
 import java.time.OffsetDateTime;
 
@@ -11,6 +12,8 @@ import java.time.OffsetDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Where(clause = "active = true")
+@Table(name = "connection_details")
 public class ConnectionDetails {
 
     @Id
@@ -22,6 +25,8 @@ public class ConnectionDetails {
     private OffsetDateTime creationDate;
     private String modificationBy;
     private OffsetDateTime modificationDate;
+
+    @Column(name = "active")
     private boolean active;
 
     @OneToOne

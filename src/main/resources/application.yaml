@@ -1,25 +1,23 @@
 spring:
-    application:
-        name: dconnect-infrastructure
+    data:
+        mongodb:
+            uri: mongodb+srv://dconnect:BUNWUjRGp2zsEnCY@dconnect.ihsuope.mongodb.net/?retryWrites=true&w=majority
+            database: DConnect
 
     datasource:
         driver-class-name: org.postgresql.Driver
         url: jdbc:postgresql://surus.db.elephantsql.com/bszjoetk?currentSchema=infrastructure
         username: bszjoetk
         password: tHUk9wlR10pw5LtBh8YV_ZSoWPB_u5Nj
-
-    data:
-      mongodb:
-          uri: mongodb+srv://dconnect:BUNWUjRGp2zsEnCY@dconnect.ihsuope.mongodb.net/?retryWrites=true&w=majority
-          database: DConnect
-
-
+    application:
+        name: dconnect-infrastructure
     liquibase:
         enabled: true
         change-log: classpath:changelogs/master-changelogs.xml
     jpa:
-      hibernate:
+        hibernate:
           ddl-auto: validate
+        show-sql: true
     rabbitmq:
         password: guest
         username: guest

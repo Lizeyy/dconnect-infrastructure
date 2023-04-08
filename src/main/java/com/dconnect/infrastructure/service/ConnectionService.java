@@ -2,9 +2,8 @@ package com.dconnect.infrastructure.service;
 
 import com.dconnect.client.protocol.domain.request.ConnectionCreateRequest;
 import com.dconnect.client.protocol.domain.request.ConnectionJoinRequest;
-import com.dconnect.client.protocol.domain.response.ConnectionCreateResponse;
-import com.dconnect.client.protocol.domain.response.ConnectionJoinResponse;
-import com.dconnect.client.protocol.domain.response.ConnectionListOnServerResponse;
+import com.dconnect.client.protocol.domain.request.ConnectionQuitRequest;
+import com.dconnect.client.protocol.domain.response.*;
 import com.dconnect.infrastructure.domain.*;
 import com.dconnect.infrastructure.error.ChannelAlreadyUsed;
 import com.dconnect.infrastructure.error.ConnectionNotFound;
@@ -54,6 +53,22 @@ public class ConnectionService {
         return ConnectionMapper.INSTANCE.map(connection, token);
     }
 
+    @Transactional
+    public ConnectionQuitResponse quitConnection(ConnectionQuitRequest request) {
+        final Optional<Connection> connection = connectionRepository.findByChannelsDiscordChannelId(request.getChannelId());
+        if (connection.isEmpty()) {
+            throw new ConnectionNotFound("Nie znaleziono połączenia");
+        }
+
+        final Channel channel = channelService.quitFromConnection(request.getChannelId(), request.getCreationBy());
+        connection.get().getChannels().remove(channel);
+
+        return ConnectionQuitResponse.builder()
+                .connectionName(connection.get().getName())
+                .serverName(channel.getServer().getName())
+                .build();
+    }
+
     public Connection addToConnection(Long connectionId, Channel channel, String creationBy) {
         final Connection connection = getConnection(connectionId);
         createConnectionsChannels(channel, connection, creationBy);
@@ -74,6 +89,21 @@ public class ConnectionService {
         return new ConnectionListOnServerResponse();
     }
 
+    public ConnectionServersListResponse getConnectionServersListResponse(String channelId) {
+        final Optional<Connection> connection = connectionRepository.findByChannelsDiscordChannelId(channelId);
+        if (connection.isPresent()) {
+            final List<Server> servers = connection.get().getChannels().stream()
+                    .filter(channel -> channel.getDetails().isActive())
+                    .map(Channel::getServer)
+                    .toList();
+            return ConnectionServersListResponse.builder()
+                    .connectionName(connection.get().getName())
+                    .servers(createServersConnectionMap(servers))
+                    .build();
+        }
+        return new ConnectionServersListResponse();
+    }
+
     public String getConnectionName(Long id) {
         return connectionRepository.findById(id).orElseThrow(() -> new ConnectionNotFound("Nie znaleziono połączenia")).getName();
     }
@@ -86,7 +116,7 @@ public class ConnectionService {
         return connectionRepository.existsByChannelsDiscordChannelId(channelId);
     }
     public Set<String> getChannelsInConnectionByChannelId(String channelId) {
-        final Connection connection = connectionRepository.findByChannelsDiscordChannelId(channelId);
+        final Connection connection = connectionRepository.findByChannelsDiscordChannelId(channelId).orElseThrow(() -> new ConnectionNotFound("Nie znaleziono połączenia"));
         return connection.getChannels().stream().map(Channel::getDiscordChannelId).collect(Collectors.toSet());
     }
 
@@ -108,6 +138,14 @@ public class ConnectionService {
                     map.put(channel.getName(), connection.getName());
                 }
             });
+        });
+        return map;
+    }
+
+    private Map<String, String> createServersConnectionMap(List<Server> servers) {
+        final Map<String, String> map = new HashMap<>();
+        servers.forEach( server -> {
+            map.put(server.getName(), server.getDiscordServerId());
         });
         return map;
     }

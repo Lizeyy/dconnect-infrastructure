@@ -48,6 +48,14 @@ public class ChannelService {
         connection.getChannels().add(channel);
     }
 
+    public Channel quitFromConnection(String channelDiscordId, String modifiedBy) {
+        final Channel channel = getChannel(channelDiscordId);
+        channel.getDetails().setActive(false);
+        channel.getDetails().setModificationBy(modifiedBy);
+        channel.getDetails().setModificationDate(OffsetDateTime.now());
+        return channel;
+    }
+
     public boolean checkIfChannelExist(String serverId, String channelId) {
         return channelsRepository.findByServerDiscordServerIdAndDiscordChannelIdAndDetailsActiveIsTrue(serverId, channelId).isPresent();
     }

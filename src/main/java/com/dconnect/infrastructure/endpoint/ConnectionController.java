@@ -2,11 +2,9 @@ package com.dconnect.infrastructure.endpoint;
 
 import com.dconnect.client.protocol.domain.request.ConnectionCreateRequest;
 import com.dconnect.client.protocol.domain.request.ConnectionJoinRequest;
+import com.dconnect.client.protocol.domain.request.ConnectionQuitRequest;
 import com.dconnect.client.protocol.domain.request.InvitationRequest;
-import com.dconnect.client.protocol.domain.response.ConnectionCreateResponse;
-import com.dconnect.client.protocol.domain.response.ConnectionListOnServerResponse;
-import com.dconnect.client.protocol.domain.response.InvitationResponse;
-import com.dconnect.client.protocol.domain.response.ConnectionJoinResponse;
+import com.dconnect.client.protocol.domain.response.*;
 import com.dconnect.infrastructure.service.ConnectionService;
 import com.dconnect.infrastructure.service.InvitationService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +34,11 @@ public class ConnectionController {
         return invitationService.addInvitation(request);
     }
 
+    @PostMapping("api/connection/quit")
+    public ConnectionQuitResponse addConnection(@Valid @RequestBody ConnectionQuitRequest request) {
+        return connectionService.quitConnection(request);
+    }
+
     @PostMapping("api/connection/invitation-delete")
     public InvitationResponse removeInvitation(@Valid @RequestBody InvitationRequest request) {
         return invitationService.removeInvitation(request);
@@ -45,4 +48,10 @@ public class ConnectionController {
     public ConnectionListOnServerResponse getConnectionListOnServerResponse(@PathVariable("serverId") String serverId) {
         return connectionService.getConnectionListOnServerResponse(serverId);
     }
+
+    @GetMapping("api/connection/servers/{channelId}")
+    public ConnectionServersListResponse getConnectionServersListResponse(@PathVariable("channelId") String channelId) {
+        return connectionService.getConnectionServersListResponse(channelId);
+    }
+
 }

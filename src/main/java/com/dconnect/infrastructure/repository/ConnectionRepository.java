@@ -11,7 +11,7 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
 
     List<Connection> findAllByChannelsServer(Server server);
 
-    Connection findByChannelsDiscordChannelId(String discordChannelId);
+    Optional<Connection> findByChannelsDiscordChannelId(String discordChannelId);
 
     boolean existsByChannelsDiscordChannelId(String discordChannelId);
 
