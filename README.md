@@ -6,6 +6,7 @@ Serwis jest odpowiedzialny za przetwarzanie operacji oraz połączenie z bazami 
 * Spring Boot
 * REST API
 * Hibernate JPA
-* Lombok
 * RabbitMQ
+* Lombok
+* Mapstruct
 
