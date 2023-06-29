@@ -1,0 +1,57 @@
+spring:
+    data:
+        mongodb:
+            uri: mongodb+srv://dconnect:BUNWUjRGp2zsEnCY@dconnect.ihsuope.mongodb.net/?retryWrites=true&w=majority
+            database: DConnect
+
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://surus.db.elephantsql.com/bszjoetk?currentSchema=infrastructure
+        username: bszjoetk
+        password: tHUk9wlR10pw5LtBh8YV_ZSoWPB_u5Nj
+    application:
+        name: dconnect-infrastructure
+    liquibase:
+        enabled: true
+        change-log: classpath:changelogs/master-changelogs.xml
+    jpa:
+        hibernate:
+          ddl-auto: validate
+        show-sql: true
+    rabbitmq:
+        password: guest
+        username: guest
+        host: localhost
+        port: 5672
+
+server:
+    port: 8091
+
+eureka:
+    client:
+        registerWithEureka: true
+        fetchRegistry: true
+        service-url:
+            default-zone: http://localhost:8761/eureka/
+    instance:
+        preferIpAddress: true
+
+
+feign:
+    client:
+        config:
+            discord:
+                connectTimeout: 100
+                readTimeout: 100
+                loggerLevel: basic
+                retryer: feign.Retryer.Default
+            infrastructure:
+                connectTimeout: 100
+                readTimeout: 100
+                loggerLevel: basic
+                retryer: feign.Retryer.Default
+
+        discord:
+            baseUrl: http://localhost:8090
+        infrastructure:
+            baseUrl: http://localhost:8091
