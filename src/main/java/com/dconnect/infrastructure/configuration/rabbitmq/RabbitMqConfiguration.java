@@ -46,6 +46,4 @@ public class RabbitMqConfiguration {
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return new Jackson2JsonMessageConverter(objectMapper);
     }
-
-
 }

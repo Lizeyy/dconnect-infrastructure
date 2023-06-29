@@ -16,7 +16,7 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("api/message")
+    @PostMapping("/api/message")
     public void getMessage(@Valid @RequestBody MessageRequest request) {
         messageService.sendMessage(request);
     }

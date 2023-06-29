@@ -1,17 +1,14 @@
 package com.dconnect.infrastructure.service;
 
 import com.dconnect.client.protocol.domain.request.ConnectionCreateRequest;
-import com.dconnect.client.protocol.domain.request.ConnectionJoinRequest;
 import com.dconnect.client.protocol.domain.request.ConnectionQuitRequest;
 import com.dconnect.client.protocol.domain.response.*;
 import com.dconnect.infrastructure.domain.*;
 import com.dconnect.infrastructure.error.ChannelAlreadyUsed;
 import com.dconnect.infrastructure.error.ConnectionNotFound;
-import com.dconnect.infrastructure.error.TokenNotActive;
 import com.dconnect.infrastructure.mapper.ConnectionMapper;
 import com.dconnect.infrastructure.repository.ConnectionRepository;
 import com.dconnect.infrastructure.repository.ConnectionsChannelsRepository;
-import com.dconnect.infrastructure.repository.InvitationRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +27,7 @@ public class ConnectionService {
     private final ServerService serverService;
     private final TokenService tokenService;
 
-    @Transactional //żeby nie zapisało w razie errora
+    @Transactional
     public ConnectionCreateResponse createConnection(ConnectionCreateRequest request) {
         if (channelService.checkIfChannelExist(request.getServerId(), request.getChannelId())) {
             throw new ChannelAlreadyUsed("Kanał już jest połączony z siecią!");
@@ -104,6 +101,14 @@ public class ConnectionService {
         return new ConnectionServersListResponse();
     }
 
+    private Map<String, String> createServersConnectionMap(List<Server> servers) {
+        final Map<String, String> map = new HashMap<>();
+        servers.forEach( server -> {
+            map.put(server.getName(), server.getDiscordServerId());
+        });
+        return map;
+    }
+
     public String getConnectionName(Long id) {
         return connectionRepository.findById(id).orElseThrow(() -> new ConnectionNotFound("Nie znaleziono połączenia")).getName();
     }
@@ -142,13 +147,7 @@ public class ConnectionService {
         return map;
     }
 
-    private Map<String, String> createServersConnectionMap(List<Server> servers) {
-        final Map<String, String> map = new HashMap<>();
-        servers.forEach( server -> {
-            map.put(server.getName(), server.getDiscordServerId());
-        });
-        return map;
-    }
+
 
     private boolean checkChannelConIsActive(Channel channel) {
         return connectionsChannelsRepository.existsByChannelAndActiveIsTrue(channel);

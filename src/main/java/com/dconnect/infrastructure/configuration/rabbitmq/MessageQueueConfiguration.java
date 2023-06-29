@@ -13,6 +13,7 @@ public class MessageQueueConfiguration {
     public static final String QUEUE = "messageQueue";
     public static final String EXCHANGE = "messageExchange";
     public static final String ROUTING_KEY = "messageRoutingKey";
+    public static final String BINDING = "messageBinding";
 
 
     @Bean(QUEUE)
@@ -27,7 +28,7 @@ public class MessageQueueConfiguration {
         return new DirectExchange(EXCHANGE);
     }
 
-    @Bean("messageBinding")
+    @Bean(BINDING)
     Binding messageBinding(
             @Qualifier(QUEUE) Queue queue,
             @Qualifier(EXCHANGE) DirectExchange exchange) {

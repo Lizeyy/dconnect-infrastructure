@@ -29,27 +29,27 @@ public class ConnectionController {
         return invitationService.createInvitation(request);
     }
 
-    @PostMapping("api/connection/add")
+    @PostMapping("/api/connection/add")
     public InvitationResponse addConnection(@Valid @RequestBody InvitationRequest request) {
         return invitationService.addInvitation(request);
     }
 
-    @PostMapping("api/connection/quit")
+    @PostMapping("/api/connection/quit")
     public ConnectionQuitResponse addConnection(@Valid @RequestBody ConnectionQuitRequest request) {
         return connectionService.quitConnection(request);
     }
 
-    @PostMapping("api/connection/invitation-delete")
+    @PostMapping("/api/connection/invitation-delete")
     public InvitationResponse removeInvitation(@Valid @RequestBody InvitationRequest request) {
         return invitationService.removeInvitation(request);
     }
 
-    @GetMapping("api/connection/{serverId}")
+    @GetMapping("/api/connection/{serverId}")
     public ConnectionListOnServerResponse getConnectionListOnServerResponse(@PathVariable("serverId") String serverId) {
         return connectionService.getConnectionListOnServerResponse(serverId);
     }
 
-    @GetMapping("api/connection/servers/{channelId}")
+    @GetMapping("/api/connection/servers/{channelId}")
     public ConnectionServersListResponse getConnectionServersListResponse(@PathVariable("channelId") String channelId) {
         return connectionService.getConnectionServersListResponse(channelId);
     }
